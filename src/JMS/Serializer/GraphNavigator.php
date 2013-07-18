@@ -109,6 +109,15 @@ final class GraphNavigator
             $type = array('name' => 'NULL', 'params' => array());
         }
 
+        if(is_object($data) && isset($data->__jsonclass__)){
+            $type['name'] = $data->__jsonclass__[0];
+        }else if(is_array($data) && isset($data['__jsonclass__'])){
+            $type['name'] = $data['__jsonclass__'][0];
+        }
+	/*else if(is_array($data) && isset($data['type']) && $data['type'] == 'block' && isset($data['phpClassName'])){
+            $type['name'] = 'Onbile\\CoreBundle\\Model\\' . ucfirst($data['phpClassName']);
+        }*/
+
         switch ($type['name']) {
             case 'NULL':
                 return $visitor->visitNull($data, $type, $context);
